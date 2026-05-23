@@ -5,17 +5,28 @@ import type { UserOut } from '../../services/types'
 Page({
   data: {
     openid: '',
+    hasBasicInfo: false,
     hasProfile: false,
+    loading: true,
   },
   async onShow() {
     const openid = getCurrentOpenId()
-    this.setData({ openid })
+    this.setData({ openid, loading: false })
+    try {
+      await request('/api/v1/auth/login', { method: 'POST', data: { code: openid } })
+    } catch {
+      // login 失败则后续 /users/me 也会 401
+    }
     try {
       const user = await request<UserOut>('/api/v1/users/me')
+      const hasBasicInfo = Boolean(user.name && user.gender)
       const hasProfile = Boolean(user.name && user.gender && user.expected_gender)
-      this.setData({ hasProfile })
+      this.setData({ hasBasicInfo, hasProfile })
+      if (!hasBasicInfo) {
+        wx.redirectTo({ url: '/pages/matchee/register/register' })
+      }
     } catch {
-      this.setData({ hasProfile: false })
+      this.setData({ hasBasicInfo: false, hasProfile: false })
     }
   },
   goMatchee() {
@@ -26,11 +37,7 @@ Page({
     }
   },
   goMatcher() {
-    if (this.data.hasProfile) {
-      wx.navigateTo({ url: '/pages/matcher/candidates/candidates' })
-    } else {
-      wx.navigateTo({ url: '/pages/matchee/register/register' })
-    }
+    wx.navigateTo({ url: '/pages/matcher/candidates/candidates' })
   },
   goInbox() {
     wx.navigateTo({ url: '/pages/matchee/inbox/inbox' })

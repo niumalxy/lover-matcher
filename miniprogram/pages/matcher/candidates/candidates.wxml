@@ -1,14 +1,27 @@
 <view class="container">
+  <view class="gender-bar">
+    <view
+      wx:for="{{genderOptions}}"
+      wx:key="value"
+      class="gender-tab {{genderFilter === item.value ? 'active' : ''}}"
+      bindtap="onGenderChange"
+      data-value="{{item.value}}"
+    >{{item.label}}</view>
+  </view>
+
   <view wx:if="{{loading}}" class="muted">加载中...</view>
   <view wx:elif="{{items.length === 0}}" class="card">
-    <view style="text-align: center; color: #999;">候选池里还没有人 🥲</view>
+    <view style="text-align: center; color: #999;">候选池里还没有符合条件的人</view>
   </view>
   <view wx:for="{{items}}" wx:key="user_id" class="card" bindtap="tapCandidate" data-id="{{item.user_id}}">
     <view style="display: flex;">
       <image wx:if="{{item.avatar_url}}" src="{{baseUrl}}{{item.avatar_url}}" style="width: 120rpx; height: 120rpx; border-radius: 16rpx;" mode="aspectFill" />
       <view wx:else style="width: 120rpx; height: 120rpx; border-radius: 16rpx; background: #ffd6dd; display: flex; align-items: center; justify-content: center; color: #d44760; font-size: 48rpx;">{{item.name ? item.name[0] : '?'}}</view>
       <view style="margin-left: 20rpx; flex: 1;">
-        <view style="font-weight: 600; font-size: 30rpx;">{{item.name || '匿名'}}</view>
+        <view style="display: flex; align-items: center; gap: 12rpx;">
+          <view style="font-weight: 600; font-size: 30rpx;">{{item.name || '匿名'}}</view>
+          <view wx:if="{{item.user_id === myUserId}}" class="me-tag">我</view>
+        </view>
         <view class="muted" style="margin: 4rpx 0;">{{item.gender === 'F' ? '女' : '男'}}</view>
         <view style="font-size: 26rpx; color: #555;">{{item.self_intro}}</view>
       </view>

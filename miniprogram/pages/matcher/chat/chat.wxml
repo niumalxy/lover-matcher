@@ -5,11 +5,18 @@
         与 {{conv.peer_name || '对方'}} 的智能助手 · 状态：
         <text wx:if="{{conv.status === 'active'}}">进行中</text>
         <text wx:elif="{{conv.status === 'matched'}}" style="color: #0a7c2e;">已匹配，等对方决定</text>
+        <text wx:elif="{{conv.status === 'blacklisted'}}" style="color: #c00;">已被对方拉黑</text>
         <text wx:else style="color: #c00;">已结束</text>
       </view>
 
       <block wx:for="{{messages}}" wx:key="id">
-        <view id="msg-{{item.id}}" class="msg {{item.sender === 'agent' ? 'msg-agent' : 'msg-matcher'}}">
+        <view wx:if="{{item.sender === '__typing__'}}" class="msg msg-agent">
+          <view class="msg-bubble typing-bubble">
+            <text>对方正在回复</text>
+            <text class="typing-dots"><text>.</text><text>.</text><text>.</text></text>
+          </view>
+        </view>
+        <view wx:else id="msg-{{item.id}}" class="msg {{item.sender === 'agent' ? 'msg-agent' : 'msg-matcher'}}">
           <view class="msg-bubble">{{item.content}}</view>
         </view>
       </block>

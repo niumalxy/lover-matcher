@@ -1,5 +1,7 @@
 import { request } from '../../../services/api'
-import type { ProfileOut, StructuredProfile } from '../../../services/types'
+import type { CustomQuestion, ProfileOut, StructuredProfile } from '../../../services/types'
+
+const PRIORITY_VALUES: Array<CustomQuestion['priority']> = ['low', 'medium', 'high']
 
 function arrToText(arr: string[]): string {
   return (arr || []).join('\n')
@@ -21,6 +23,9 @@ Page({
     hard_text: '',
     soft_text: '',
     speaking_style: '',
+    customQuestions: [] as Array<CustomQuestion & { priorityIndex: number }>,
+    priorityOptions: ['低', '中', '高'],
+    priorityLabels: { low: '低', medium: '中', high: '高' },
     hasStructured: false,
     extracting: false,
     saving: false,
@@ -36,6 +41,10 @@ Page({
     }
   },
   fillStructured(s: StructuredProfile, raw: string) {
+    const questions = (s.custom_questions || []).map((q) => ({
+      ...q,
+      priorityIndex: PRIORITY_VALUES.indexOf(q.priority),
+    }))
     this.setData({
       raw_input: raw,
       self_intro: s.self_intro,
@@ -44,6 +53,7 @@ Page({
       hard_text: arrToText(s.hard_requirements),
       soft_text: arrToText(s.soft_requirements),
       speaking_style: s.speaking_style,
+      customQuestions: questions,
       hasStructured: true,
     })
   },
@@ -56,6 +66,38 @@ Page({
   onHardInput(e: WechatMiniprogram.Input) { this.setData({ hard_text: e.detail.value }) },
   onSoftInput(e: WechatMiniprogram.Input) { this.setData({ soft_text: e.detail.value }) },
   onStyleInput(e: WechatMiniprogram.Input) { this.setData({ speaking_style: e.detail.value }) },
+  onAddQuestion() {
+    const q = {
+      question: '',
+      ideal_answer: '',
+      priority: 'medium' as CustomQuestion['priority'],
+      priorityIndex: 1,
+    }
+    this.setData({ customQuestions: [...this.data.customQuestions, q] })
+  },
+  onQuestionInput(e: WechatMiniprogram.Input) {
+    const index = e.currentTarget.dataset.index
+    this.setData({ [`customQuestions[${index}].question`]: e.detail.value })
+  },
+  onAnswerInput(e: WechatMiniprogram.Input) {
+    const index = e.currentTarget.dataset.index
+    this.setData({ [`customQuestions[${index}].ideal_answer`]: e.detail.value })
+  },
+  onPriorityChange(e: WechatMiniprogram.PickerChange) {
+    const index = e.currentTarget.dataset.index
+    const priorityIndex = parseInt(e.detail.value as string, 10)
+    const priority = PRIORITY_VALUES[priorityIndex]
+    this.setData({
+      [`customQuestions[${index}].priority`]: priority,
+      [`customQuestions[${index}].priorityIndex`]: priorityIndex,
+    })
+  },
+  onRemoveQuestion(e: WechatMiniprogram.TouchEvent) {
+    const index = e.currentTarget.dataset.index
+    const list = [...this.data.customQuestions]
+    list.splice(index, 1)
+    this.setData({ customQuestions: list })
+  },
   async onExtract() {
     if (!this.data.raw_input.trim()) {
       wx.showToast({ title: '请先输入描述', icon: 'none' })
@@ -90,6 +132,11 @@ Page({
       hard_requirements: textToArr(this.data.hard_text),
       soft_requirements: textToArr(this.data.soft_text),
       speaking_style: this.data.speaking_style,
+      custom_questions: this.data.customQuestions.map((q) => ({
+        question: q.question,
+        ideal_answer: q.ideal_answer,
+        priority: q.priority,
+      })),
     }
     this.setData({ saving: true })
     wx.showLoading({ title: '保存中...' })

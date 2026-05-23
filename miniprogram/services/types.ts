@@ -17,6 +17,12 @@ export interface UserOut {
   roles: string
 }
 
+export interface CustomQuestion {
+  question: string
+  ideal_answer: string
+  priority: 'low' | 'medium' | 'high'
+}
+
 export interface StructuredProfile {
   self_intro: string
   personality: string[]
@@ -24,6 +30,7 @@ export interface StructuredProfile {
   hard_requirements: string[]
   soft_requirements: string[]
   speaking_style: string
+  custom_questions: CustomQuestion[]
 }
 
 export interface ProfileOut {
@@ -41,12 +48,17 @@ export interface CandidateSummary {
   self_intro: string
 }
 
+export interface CandidateListResult {
+  viewer_user_id: string
+  items: CandidateSummary[]
+}
+
 export interface CandidateDetail extends CandidateSummary {
   personality: string[]
   hobbies: string[]
 }
 
-export type ConversationStatus = 'active' | 'matched' | 'ended'
+export type ConversationStatus = 'active' | 'matched' | 'ended' | 'blacklisted'
 export type MessageSender = 'matcher' | 'agent'
 
 export interface ConversationOut {

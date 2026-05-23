@@ -5,7 +5,7 @@ Page({
   data: {
     convId: '',
     conv: null as ConversationOut | null,
-    messages: [] as MessageOut[],
+    messages: [] as Array<MessageOut | { id: string; conversation_id: string; sender: string; content: string; created_at: string }>,
     input: '',
     sending: false,
     scrollIntoView: '',
@@ -37,16 +37,42 @@ Page({
       wx.showToast({ title: '会话已结束', icon: 'none' })
       return
     }
-    this.setData({ sending: true, input: '' })
+    const tempId = `temp-${Date.now()}`
+    const userMsg = {
+      id: tempId,
+      conversation_id: this.data.convId,
+      sender: 'matcher',
+      content,
+      created_at: '',
+    }
+    const typingMsg = {
+      id: '__typing__',
+      conversation_id: this.data.convId,
+      sender: '__typing__',
+      content: '对方正在回复...',
+      created_at: '',
+    }
+    this.setData({
+      sending: true,
+      input: '',
+      messages: [...this.data.messages, userMsg, typingMsg],
+    })
+    this.scrollToBottom()
     try {
       const result = await request<SendMessageResult>(
         `/api/v1/conversations/${this.data.convId}/messages`,
         { method: 'POST', data: { content } }
       )
       await this.refresh()
-      if (result.status === 'matched') {
+      if (result.status === 'blacklisted') {
         wx.showModal({
-          title: '🎉 助手认为你们很合适',
+          title: '已被拉黑',
+          content: '对方已将你拉黑，无法继续对话。',
+          showCancel: false,
+        })
+      } else if (result.status === 'matched') {
+        wx.showModal({
+          title: '助手认为你们很合适',
           content: '已通知对方决定是否同意配对，可去「我发起的匹配」查看进度。',
           showCancel: false,
         })
@@ -58,6 +84,8 @@ Page({
         })
       }
     } catch (e) {
+      const msgs = this.data.messages.filter((m) => m.id !== '__typing__')
+      this.setData({ messages: msgs })
       console.error(e)
     } finally {
       this.setData({ sending: false })

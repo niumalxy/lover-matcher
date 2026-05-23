@@ -76,7 +76,7 @@ Page({
       wx.hideLoading()
       wx.showToast({ title: '已保存', icon: 'success' })
       setTimeout(() => {
-        wx.redirectTo({ url: '/pages/matchee/profile/profile' })
+        wx.redirectTo({ url: '/pages/index/index' })
       }, 600)
     } catch (e) {
       wx.hideLoading()

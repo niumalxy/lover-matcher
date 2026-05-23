@@ -21,6 +21,7 @@ function fullUrl(path: string): string {
 function buildHeader(extra?: Record<string, string>): Record<string, string> {
   const header: Record<string, string> = {
     'content-type': 'application/json',
+    'ngrok-skip-browser-warning': 'true',
     ...(extra || {}),
   }
   const openid = getOpenId()
@@ -63,7 +64,7 @@ export function uploadFile<T = unknown>(path: string, filePath: string): Promise
       url: fullUrl(path),
       filePath,
       name: 'file',
-      header: openid ? { 'X-OpenId': openid } : {},
+      header: { 'ngrok-skip-browser-warning': 'true', ...(openid ? { 'X-OpenId': openid } : {}) },
       success: (res) => {
         try {
           const body = JSON.parse(res.data) as ApiEnvelope<T>

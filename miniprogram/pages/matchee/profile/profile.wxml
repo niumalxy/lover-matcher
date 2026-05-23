@@ -29,6 +29,27 @@
       <textarea class="ta" value="{{speaking_style}}" bindinput="onStyleInput" auto-height />
     </view>
 
+    <view class="card">
+      <view class="label" style="font-size: 28rpx;">自定义问题（供智能助手在对话中询问）</view>
+      <view class="muted" style="margin-bottom: 16rpx;">助手会自然融入对话中询问这些问题，优先级越高越优先问到。</view>
+
+      <block wx:for="{{customQuestions}}" wx:key="index">
+        <view class="q-card">
+          <view class="q-header">
+            <text class="q-index">问题 {{index + 1}}</text>
+            <picker mode="selector" range="{{priorityOptions}}" value="{{item.priorityIndex}}" bindchange="onPriorityChange" data-index="{{index}}">
+              <view class="q-priority p-{{item.priority}}">{{priorityLabels[item.priority]}}</view>
+            </picker>
+            <view class="q-remove" bindtap="onRemoveQuestion" data-index="{{index}}">删除</view>
+          </view>
+          <input class="q-input" value="{{item.question}}" bindinput="onQuestionInput" data-index="{{index}}" placeholder="输入你想问对方的问题..." />
+          <input class="q-input" value="{{item.ideal_answer}}" bindinput="onAnswerInput" data-index="{{index}}" placeholder="你期望的理想回答（可选）" />
+        </view>
+      </block>
+
+      <view class="btn-secondary" bindtap="onAddQuestion">+ 增加问题</view>
+    </view>
+
     <view class="btn-primary" bindtap="onSubmit">{{saving ? '保存中...' : '保存并进入候选池'}}</view>
   </block>
 </view>

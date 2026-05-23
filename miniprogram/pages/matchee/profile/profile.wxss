@@ -14,3 +14,62 @@
   box-sizing: border-box;
   min-height: 80rpx;
 }
+
+.q-card {
+  background: #f9fafb;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  margin-bottom: 16rpx;
+  border: 1rpx solid #e5e7eb;
+}
+
+.q-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.q-index {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.q-priority {
+  font-size: 24rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  font-weight: 500;
+}
+
+.p-low {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.p-medium {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.p-high {
+  background: #fecaca;
+  color: #b91c1c;
+}
+
+.q-remove {
+  font-size: 24rpx;
+  color: #ef4444;
+}
+
+.q-input {
+  width: 100%;
+  background: #fff;
+  border: 1rpx solid #d1d5db;
+  border-radius: 8rpx;
+  padding: 12rpx 16rpx;
+  font-size: 26rpx;
+  box-sizing: border-box;
+  margin-bottom: 8rpx;
+}
