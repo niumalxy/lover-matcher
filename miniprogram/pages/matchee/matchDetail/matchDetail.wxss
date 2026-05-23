@@ -1,0 +1,26 @@
+.msg {
+  display: flex;
+  margin: 12rpx 0;
+}
+.msg-agent {
+  justify-content: flex-end;
+}
+.msg-matcher {
+  justify-content: flex-start;
+}
+.msg-bubble {
+  max-width: 70%;
+  padding: 16rpx 20rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+.msg-agent .msg-bubble {
+  background: #ffe9ee;
+  color: #5a1a26;
+}
+.msg-matcher .msg-bubble {
+  background: #eef1f6;
+  color: #222;
+}

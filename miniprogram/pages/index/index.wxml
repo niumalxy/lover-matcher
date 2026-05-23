@@ -1,0 +1,28 @@
+<view class="container">
+  <view class="card">
+    <view style="font-size: 36rpx; font-weight: 600; margin-bottom: 12rpx;">Lover-Matcher</view>
+    <view class="muted">恋爱匹配 MVP · 当前身份：{{openid}}</view>
+  </view>
+
+  <view class="card" bindtap="goMatchee">
+    <view style="font-weight: 600; font-size: 32rpx;">我要被匹配</view>
+    <view class="muted">填写自己的画像和择偶标准，进入候选池</view>
+  </view>
+
+  <view class="card" bindtap="goMatcher">
+    <view style="font-weight: 600; font-size: 32rpx;">我要看候选</view>
+    <view class="muted">浏览候选池，与智能恋爱助手聊天</view>
+  </view>
+
+  <view class="card" bindtap="goInbox">
+    <view style="font-weight: 600;">📥 我的匹配通知</view>
+    <view class="muted">查看是否有人通过我的智能助手聊到匹配</view>
+  </view>
+
+  <view class="card" bindtap="goMatched">
+    <view style="font-weight: 600;">💞 我发起的匹配</view>
+    <view class="muted">我聊过的对话和匹配进度</view>
+  </view>
+
+  <view class="btn-secondary" bindtap="onReset" style="margin-top: 40rpx;">重置身份（开发用）</view>
+</view>

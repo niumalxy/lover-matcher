@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/matchee/register/register",
+    "pages/matchee/profile/profile",
+    "pages/matchee/inbox/inbox",
+    "pages/matchee/matchDetail/matchDetail",
+    "pages/matcher/candidates/candidates",
+    "pages/matcher/chat/chat",
+    "pages/matcher/matched/matched"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Lover-Matcher",
+    "navigationBarBackgroundColor": "#ffffff"
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "lazyCodeLoading": "requiredComponents"
+}

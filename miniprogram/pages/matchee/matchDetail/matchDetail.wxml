@@ -1,0 +1,28 @@
+<view class="container">
+  <view wx:if="{{match}}" class="card">
+    <view style="font-weight: 600; font-size: 30rpx;">{{match.peer_name || '匿名'}}</view>
+    <view class="muted">匹配时间：{{match.created_at}}</view>
+    <view wx:if="{{match.matchee_decision === 'pending'}}" class="tag" style="background: #fff3d6; color: #b68500;">待你决定</view>
+    <view wx:elif="{{match.matchee_decision === 'approved'}}" class="tag" style="background: #d6ffe1; color: #0a7c2e;">已同意</view>
+    <view wx:elif="{{match.matchee_decision === 'rejected'}}" class="tag" style="background: #ffd6d6; color: #c00;">已拒绝</view>
+
+    <view wx:if="{{match.peer_contact}}" style="margin-top: 16rpx; padding: 16rpx; background: #f0fbf3; border-radius: 12rpx;">
+      <view style="font-weight: 600; color: #0a7c2e;">对方联系方式</view>
+      <view selectable style="margin-top: 8rpx;">{{match.peer_contact}}</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view style="font-weight: 600; margin-bottom: 12rpx;">聊天记录（你的智能助手 vs 对方）</view>
+    <block wx:for="{{messages}}" wx:key="id">
+      <view class="msg {{item.sender === 'agent' ? 'msg-agent' : 'msg-matcher'}}">
+        <view class="msg-bubble">{{item.content}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{match && match.matchee_decision === 'pending'}}" style="display: flex; gap: 16rpx;">
+    <view class="btn-secondary" style="flex: 1;" bindtap="decide" data-decision="rejected">拒绝</view>
+    <view class="btn-primary" style="flex: 1;" bindtap="decide" data-decision="approved">同意配对</view>
+  </view>
+</view>

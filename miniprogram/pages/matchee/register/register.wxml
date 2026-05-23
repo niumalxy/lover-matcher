@@ -1,0 +1,35 @@
+<view class="container">
+  <view class="card">
+    <view style="font-weight: 600; font-size: 30rpx; margin-bottom: 16rpx;">基本信息</view>
+
+    <view style="margin: 16rpx 0;">姓名/昵称</view>
+    <input class="input" value="{{name}}" bindinput="onNameInput" placeholder="对方会看到" />
+
+    <view style="margin: 24rpx 0 8rpx;">性别</view>
+    <radio-group bindchange="onGenderChange">
+      <label><radio value="F" checked="{{gender === 'F'}}" />女</label>
+      <label style="margin-left: 32rpx;"><radio value="M" checked="{{gender === 'M'}}" />男</label>
+    </radio-group>
+
+    <view style="margin: 24rpx 0 8rpx;">期望对方性别</view>
+    <radio-group bindchange="onExpectedGenderChange">
+      <label><radio value="M" checked="{{expected_gender === 'M'}}" />男</label>
+      <label style="margin-left: 32rpx;"><radio value="F" checked="{{expected_gender === 'F'}}" />女</label>
+      <label style="margin-left: 32rpx;"><radio value="ANY" checked="{{expected_gender === 'ANY'}}" />不限</label>
+    </radio-group>
+
+    <view style="margin: 24rpx 0 8rpx;">联系方式（匹配后才会暴露给对方）</view>
+    <input class="input" value="{{contact}}" bindinput="onContactInput" placeholder="如微信号" />
+  </view>
+
+  <view class="card">
+    <view style="font-weight: 600; font-size: 30rpx; margin-bottom: 16rpx;">头像</view>
+    <view bindtap="chooseAvatar" style="display: flex; align-items: center;">
+      <image wx:if="{{avatarLocalPath || avatarUrl}}" src="{{avatarLocalPath || avatarUrl}}" style="width: 160rpx; height: 160rpx; border-radius: 80rpx;" mode="aspectFill" />
+      <view wx:else style="width: 160rpx; height: 160rpx; border-radius: 80rpx; background: #eee; display: flex; align-items: center; justify-content: center; color: #999;">点击选择</view>
+      <view class="muted" style="margin-left: 24rpx;">{{avatarLocalPath ? '已选择，待保存' : avatarUrl ? '已上传' : '未上传'}}</view>
+    </view>
+  </view>
+
+  <view class="btn-primary" bindtap="onSubmit">保存并填写画像</view>
+</view>

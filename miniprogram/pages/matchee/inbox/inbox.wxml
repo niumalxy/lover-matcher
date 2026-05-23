@@ -1,0 +1,16 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="muted">加载中...</view>
+  <view wx:elif="{{items.length === 0}}" class="card">
+    <view style="text-align: center; color: #999;">还没有人聊到匹配，再等等～</view>
+  </view>
+  <view wx:for="{{items}}" wx:key="id" class="card" bindtap="goDetail" data-id="{{item.id}}">
+    <view style="display: flex; align-items: center;">
+      <view style="width: 80rpx; height: 80rpx; border-radius: 50%; background: #ffd6dd; display: flex; align-items: center; justify-content: center; color: #d44760; font-size: 36rpx;">{{item.peer_name ? item.peer_name[0] : '?'}}</view>
+      <view style="margin-left: 20rpx; flex: 1;">
+        <view style="font-weight: 600;">{{item.peer_name || '匿名'}}</view>
+        <view class="muted">{{item.created_at}}</view>
+      </view>
+      <view class="tag">待我决定</view>
+    </view>
+  </view>
+</view>

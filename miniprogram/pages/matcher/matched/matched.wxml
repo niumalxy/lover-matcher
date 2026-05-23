@@ -1,0 +1,22 @@
+<view class="container">
+  <view wx:if="{{loading}}" class="muted">加载中...</view>
+  <view wx:elif="{{items.length === 0}}" class="card">
+    <view style="text-align: center; color: #999;">还没和谁聊到匹配，去候选池找找～</view>
+  </view>
+  <view wx:for="{{items}}" wx:key="id" class="card">
+    <view style="display: flex; align-items: center;">
+      <view style="width: 80rpx; height: 80rpx; border-radius: 50%; background: #ffd6dd; display: flex; align-items: center; justify-content: center; color: #d44760; font-size: 36rpx;">{{item.peer_name ? item.peer_name[0] : '?'}}</view>
+      <view style="margin-left: 20rpx; flex: 1;">
+        <view style="font-weight: 600;">{{item.peer_name || '匿名'}}</view>
+        <view class="muted">匹配于 {{item.created_at}}</view>
+      </view>
+      <view wx:if="{{item.matchee_decision === 'pending'}}" class="tag" style="background: #fff3d6; color: #b68500;">等对方决定</view>
+      <view wx:elif="{{item.matchee_decision === 'approved'}}" class="tag" style="background: #d6ffe1; color: #0a7c2e;">已通过</view>
+      <view wx:else class="tag" style="background: #ffd6d6; color: #c00;">对方拒绝</view>
+    </view>
+    <view wx:if="{{item.peer_contact}}" style="margin-top: 16rpx; padding: 12rpx 16rpx; background: #f0fbf3; border-radius: 12rpx;">
+      <view style="color: #0a7c2e; font-weight: 600; font-size: 26rpx;">对方联系方式</view>
+      <view selectable style="margin-top: 4rpx;">{{item.peer_contact}}</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,14 @@
+.input {
+  background: #f3f4f6;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  font-size: 28rpx;
+}
+
+radio {
+  margin-right: 8rpx;
+}
+
+label {
+  font-size: 28rpx;
+}

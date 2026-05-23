@@ -1,0 +1,16 @@
+.label {
+  font-weight: 600;
+  margin: 16rpx 0 8rpx;
+  font-size: 26rpx;
+  color: #555;
+}
+
+.ta {
+  width: 100%;
+  background: #f3f4f6;
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+  min-height: 80rpx;
+}
